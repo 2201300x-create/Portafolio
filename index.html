@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Portafolio - Comparador de Consumo</title>
+    <title>David Cortes - Analizador CFE</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js -->
@@ -14,7 +14,7 @@
             color: #000;
             padding-bottom: 8rem;
             margin: 0%;
-            background-image: linear-gradient(rgba(248, 250, 252, 0.8), rgba(248, 250, 252, 0.8)), url('1.png');
+            background-image: linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url('1.png');
             background-repeat: no-repeat;
             background-size: cover;
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -22,7 +22,7 @@
 
         .retry_home {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            background-image: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            background-image: linear-gradient(135deg, #059669, #10b981, #34d399);
             height: 14rem;
             position: relative;
             border-bottom-right-radius: 3rem;
@@ -43,15 +43,15 @@
             background: #fff;
             padding: 2rem;
             border-radius: 3rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
             z-index: 50;
             align-items: center;
             justify-content: center;
@@ -60,9 +60,9 @@
 
         .modal-content {
             background: white;
-            border-radius: 2rem;
+            border-radius: 2.5rem;
             width: 100%;
-            max-width: 650px;
+            max-width: 550px;
             max-height: 90vh;
             overflow-y: auto;
             padding: 2rem;
@@ -70,41 +70,51 @@
 
         .chart-container {
             position: relative;
-            height: 300px;
+            height: 250px;
             width: 100%;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         .btn-scan {
-            background: #6366f1;
+            background: #059669;
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 9999px;
             font-size: 0.875rem;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-scan:hover {
-            background: #4f46e5;
-            transform: scale(1.05);
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
         }
 
-        .comparison-badge {
-            font-size: 0.65rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-weight: bold;
+        /* Scanner Animation */
+        .scanner-line {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #10b981, transparent);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 2s linear infinite;
+            display: none;
         }
 
-        /* Ocultar flechas de input number */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Ocultar scrollbar en modal */
+        .modal-content::-webkit-scrollbar {
+            width: 0px;
         }
     </style>
 </head>
@@ -125,10 +135,10 @@
             <div class="bg-user">
                 <div class="flex flex-col items-center text-center">
                     <div class="relative">
-                        <img src="OIP.webp" alt="Avatar" class="w-32 h-32 bg-white object-cover rounded-[2.5rem] shadow-xl" onerror="this.src='https://ui-avatars.com/api/?name=David+Cortes&background=6366f1&color=fff'">
+                        <img src="OIP.webp" alt="Avatar" class="w-32 h-32 bg-white object-cover rounded-[2.5rem] shadow-xl border-4 border-white" onerror="this.src='https://ui-avatars.com/api/?name=David+Cortes&background=059669&color=fff'">
                     </div>
-                    <h1 class="text-3xl font-extrabold mt-6">David Cortes Cortes</h1>
-                    <p class="bg-indigo-50 text-indigo-600 px-4 py-1 rounded-full text-sm font-bold mt-2">Ingeniero en Computación</p>
+                    <h1 class="text-3xl font-extrabold mt-6 text-slate-800">David Cortes Cortes</h1>
+                    <p class="bg-emerald-50 text-emerald-600 px-4 py-1 rounded-full text-sm font-bold mt-2">Ingeniero en Computación</p>
 
                     <div class="grid grid-cols-2 gap-4 w-full mt-8 text-left">
                         <div class="p-4 bg-slate-50 border border-slate-100 rounded-3xl">
@@ -145,29 +155,30 @@
                 <div class="mt-8">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="flex items-center gap-2 text-xl font-extrabold text-slate-800">
-                            <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                            <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
-                            Portafolio
+                            Servicios IA
                         </h2>
                         <button onclick="openModal()" class="btn-scan">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
-                            Comparar Consumo
+                            Lector de Recibos
                         </button>
                     </div>
 
-                    <div class="bg-slate-50/50 border border-slate-100 rounded-[2rem] overflow-hidden p-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-white text-indigo-600 rounded-xl shadow-sm">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"></path>
+                    <div class="bg-slate-50/50 border border-slate-100 rounded-[2rem] overflow-hidden p-5">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 bg-white text-emerald-600 rounded-2xl shadow-sm">
+                                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-slate-800">Herramientas de Análisis</h3>
-                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Módulo de comparación activo</p>
+                                <h3 class="text-sm font-bold text-slate-800">Optimización Energética</h3>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Módulo de Visión Computacional Activo</p>
                             </div>
                         </div>
                     </div>
@@ -176,76 +187,101 @@
         </div>
     </main>
 
-    <!-- Modal de Análisis y Comparativa -->
+    <!-- Modal del Analizador CFE -->
     <div id="uploadModal" class="modal-overlay">
         <div class="modal-content shadow-2xl">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-800">Comparativa de Consumo</h3>
-                    <p class="text-xs text-slate-400">Ingresa los datos para ver quién gasta más</p>
+                    <h3 class="text-xl font-bold text-slate-800">Lector Inteligente CFE</h3>
+                    <p class="text-xs text-slate-400 font-medium">Extrae datos de consumo automáticamente</p>
                 </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                <button onclick="closeModal()" class="p-2 bg-slate-100 text-slate-400 hover:text-red-500 rounded-full transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
 
-            <!-- Paso 1: Entrada de Datos -->
+            <!-- Paso 1: Carga de Archivo -->
             <div id="input-step">
-                <div id="people-container" class="space-y-3 mb-6">
-                    <!-- Filas dinámicas aquí -->
+                <div id="drop-zone" class="relative group border-2 border-dashed border-emerald-200 rounded-[2.5rem] p-12 text-center hover:bg-emerald-50/50 hover:border-emerald-400 transition-all cursor-pointer">
+                    <div id="scanner-line" class="scanner-line"></div>
+                    <input type="file" id="fileInput" class="hidden" accept="image/*">
+                    
+                    <div id="upload-placeholder">
+                        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700">Toca para subir o arrastra el recibo</p>
+                        <p class="text-[10px] text-slate-400 mt-2 font-semibold">JPG, PNG o PDF (Máx. 5MB)</p>
+                    </div>
+
+                    <div id="file-preview" class="hidden flex flex-col items-center">
+                        <div class="relative inline-block">
+                            <img id="preview-img" class="h-32 w-auto rounded-xl shadow-md border-2 border-white mb-2" src="#">
+                            <div class="absolute inset-0 bg-black/10 rounded-xl"></div>
+                        </div>
+                        <p id="file-name" class="text-xs font-bold text-emerald-600 truncate max-w-[200px]"></p>
+                    </div>
                 </div>
 
-                <div class="flex gap-3">
-                    <button onclick="addPersonRow()" class="flex-1 py-3 border-2 border-dashed border-indigo-200 text-indigo-500 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-50 transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m8-8H4"></path>
-                        </svg>
-                        Agregar Persona
-                    </button>
-                    <button onclick="processData()" class="px-8 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all">
-                        Comparar
-                    </button>
-                </div>
+                <button id="btn-process" onclick="simulateScan()" class="mt-6 w-full py-4 bg-emerald-600 text-white rounded-2xl font-bold hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition-all hidden flex items-center justify-center gap-2">
+                    <span id="btn-text">Escanear Recibo ahora</span>
+                    <svg id="loader-svg" class="hidden animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </button>
             </div>
 
-            <!-- Paso 2: Resultados -->
-            <div id="result-step" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <!-- Mayor Consumo -->
-                    <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
-                        <h4 class="text-red-900 font-bold text-[10px] uppercase mb-1">Mayor Consumo</h4>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p id="max-name" class="text-lg font-black text-red-700">-</p>
-                                <p id="max-kwh" class="text-sm font-bold text-red-400">0 kWh</p>
-                            </div>
-                            <div class="p-2 bg-red-100 text-red-600 rounded-full">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
-                            </div>
-                        </div>
+            <!-- Paso 2: Dashboard de Resultados -->
+            <div id="result-step" class="hidden animate-in fade-in zoom-in duration-500">
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <div class="bg-emerald-50 p-4 rounded-3xl border border-emerald-100">
+                        <p class="text-[9px] font-black text-emerald-400 uppercase tracking-widest mb-1">Total a Pagar</p>
+                        <p id="res-total" class="text-2xl font-black text-emerald-700">$0.00</p>
                     </div>
-                    <!-- Promedio -->
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                        <h4 class="text-slate-500 font-bold text-[10px] uppercase mb-1">Promedio Grupal</h4>
-                        <p id="avg-kwh" class="text-lg font-black text-slate-700">0 kWh</p>
-                        <p class="text-[10px] text-slate-400 font-medium italic">Basado en los datos ingresados</p>
+                    <div class="bg-slate-50 p-4 rounded-3xl border border-slate-100">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Consumo Total</p>
+                        <p id="res-kwh" class="text-2xl font-black text-slate-700">0 kWh</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50/50 rounded-3xl p-5 border border-slate-100 mb-6">
+                    <h4 class="text-[10px] font-black text-slate-400 uppercase mb-4 tracking-widest">Detalles del Servicio</h4>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                            <span class="text-xs font-semibold text-slate-500">Número de Servicio</span>
+                            <span id="res-servicio" class="text-xs font-bold text-slate-800">---</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                            <span class="text-xs font-semibold text-slate-500">Tarifa Aplicada</span>
+                            <span id="res-tarifa" class="text-xs font-bold text-slate-800">---</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-semibold text-slate-500">Periodo</span>
+                            <span id="res-periodo" class="text-xs font-bold text-slate-800 italic">---</span>
+                        </div>
                     </div>
                 </div>
                 
-                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
-                    <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4"></path>
+                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2 px-1">
+                    <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path>
                     </svg>
-                    Comparativa de Gastos
+                    Niveles de Consumo (kWh)
                 </h4>
                 <div class="chart-container">
                     <canvas id="consumptionChart"></canvas>
                 </div>
 
-                <button onclick="showInputs()" class="mt-6 w-full py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-all">
-                    Modificar datos
+                <button onclick="resetUI()" class="mt-8 w-full py-3 bg-slate-100 text-slate-600 font-bold rounded-2xl hover:bg-slate-200 transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Escanear otro recibo
                 </button>
             </div>
         </div>
@@ -253,83 +289,82 @@
 
     <script>
         let myChart = null;
-        let peopleCount = 0;
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('drop-zone');
 
         function openModal() {
             document.getElementById('uploadModal').style.display = 'flex';
-            if (peopleCount === 0) {
-                // Agregar 2 filas por defecto la primera vez
-                addPersonRow('David', 170);
-                addPersonRow('Promedio CFE', 217);
-            }
         }
 
         function closeModal() {
             document.getElementById('uploadModal').style.display = 'none';
+            resetUI();
         }
 
-        function addPersonRow(name = '', kwh = '') {
-            peopleCount++;
-            const container = document.getElementById('people-container');
-            const row = document.createElement('div');
-            row.className = 'flex items-center gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 group animate-in slide-in-from-left duration-300';
-            row.id = `person-row-${peopleCount}`;
-            
-            row.innerHTML = `
-                <div class="flex-1">
-                    <input type="text" placeholder="Nombre" value="${name}" class="w-full bg-transparent border-none focus:ring-0 text-sm font-bold text-slate-700 placeholder:text-slate-300" data-type="name">
-                </div>
-                <div class="w-24 relative">
-                    <input type="number" placeholder="kWh" value="${kwh}" class="w-full bg-white border border-slate-200 rounded-lg py-1 px-2 text-sm font-black text-indigo-600 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none" data-type="kwh">
-                    <span class="absolute right-2 top-1.5 text-[8px] font-bold text-slate-400">kWh</span>
-                </div>
-                <button onclick="removeRow(${peopleCount})" class="p-2 text-slate-300 hover:text-red-500 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            `;
-            container.appendChild(row);
+        // Manejo de Archivos
+        dropZone.onclick = () => fileInput.click();
+
+        fileInput.onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        };
+
+        function handleFile(file) {
+            document.getElementById('upload-placeholder').classList.add('hidden');
+            document.getElementById('file-preview').classList.remove('hidden');
+            document.getElementById('file-name').innerText = file.name;
+            document.getElementById('btn-process').classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview-img').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         }
 
-        function removeRow(id) {
-            const row = document.getElementById(`person-row-${id}`);
-            row.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => row.remove(), 200);
-        }
+        function simulateScan() {
+            const btn = document.getElementById('btn-process');
+            const btnText = document.getElementById('btn-text');
+            const loader = document.getElementById('loader-svg');
+            const scannerLine = document.getElementById('scanner-line');
 
-        function showInputs() {
-            document.getElementById('input-step').classList.remove('hidden');
-            document.getElementById('result-step').classList.add('hidden');
-        }
+            btn.disabled = true;
+            btnText.innerText = "Procesando con IA...";
+            loader.classList.remove('hidden');
+            scannerLine.style.display = 'block';
 
-        function processData() {
-            const names = Array.from(document.querySelectorAll('[data-type="name"]')).map(i => i.value || 'Anónimo');
-            const kwhs = Array.from(document.querySelectorAll('[data-type="kwh"]')).map(i => parseFloat(i.value) || 0);
-
-            if (names.length === 0) return;
-
-            const total = kwhs.reduce((a, b) => a + b, 0);
-            const avg = total / kwhs.length;
-            const maxVal = Math.max(...kwhs);
-            const maxName = names[kwhs.indexOf(maxVal)];
-
-            renderResults({
-                labels: names,
-                data: kwhs,
-                avg: avg,
-                maxName: maxName,
-                maxVal: maxVal
-            });
+            // Simulación de OCR y lógica de negocio CFE
+            setTimeout(() => {
+                const results = {
+                    total: Math.floor(Math.random() * (1200 - 450) + 450),
+                    kwh: 342,
+                    servicio: "721 042 100 " + Math.floor(Math.random() * 9000 + 1000),
+                    tarifa: "1D",
+                    periodo: "02 ENE 25 - 04 MAR 25",
+                    desglose: [150, 130, 62] // Básico, Intermedio, Excedente
+                };
+                
+                renderResults(results);
+                
+                // Limpiar efectos de carga
+                btn.disabled = false;
+                btnText.innerText = "Escanear Recibo ahora";
+                loader.classList.add('hidden');
+                scannerLine.style.display = 'none';
+            }, 2500);
         }
 
         function renderResults(res) {
             document.getElementById('input-step').classList.add('hidden');
             document.getElementById('result-step').classList.remove('hidden');
 
-            document.getElementById('max-name').innerText = res.maxName;
-            document.getElementById('max-kwh').innerText = `${res.maxVal} kWh`;
-            document.getElementById('avg-kwh').innerText = `${res.avg.toFixed(1)} kWh`;
+            document.getElementById('res-total').innerText = `$${res.total.toLocaleString()}.00`;
+            document.getElementById('res-kwh').innerText = `${res.kwh} kWh`;
+            document.getElementById('res-servicio').innerText = res.servicio;
+            document.getElementById('res-tarifa').innerText = res.tarifa;
+            document.getElementById('res-periodo').innerText = res.periodo;
 
             const ctx = document.getElementById('consumptionChart').getContext('2d');
             if (myChart) myChart.destroy();
@@ -337,50 +372,30 @@
             myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: res.labels,
-                    datasets: [
-                        {
-                            label: 'Consumo (kWh)',
-                            data: res.data,
-                            backgroundColor: res.data.map(v => v === res.maxVal ? '#ef4444' : '#6366f1'),
-                            borderRadius: 12,
-                            barThickness: 30
-                        },
-                        {
-                            label: 'Promedio del Grupo',
-                            data: Array(res.labels.length).fill(res.avg),
-                            type: 'line',
-                            borderColor: '#94a3b8',
-                            borderDash: [5, 5],
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            fill: false
-                        }
-                    ]
+                    labels: ['Básico', 'Intermedio', 'Excedente'],
+                    datasets: [{
+                        label: 'kWh consumidos',
+                        data: res.desglose,
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)', // Verde
+                            'rgba(245, 158, 11, 0.8)', // Naranja
+                            'rgba(239, 68, 68, 0.8)'   // Rojo
+                        ],
+                        borderRadius: 12,
+                        barThickness: 45
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { 
-                            display: true,
-                            position: 'bottom',
-                            labels: { usePointStyle: true, font: { size: 10, weight: 'bold' } }
-                        },
-                        tooltip: {
-                            backgroundColor: '#1e293b',
-                            padding: 12,
-                            titleFont: { size: 14, weight: 'bold' },
-                            callbacks: {
-                                label: (context) => `Consumo: ${context.raw} kWh`
-                            }
-                        }
+                        legend: { display: false }
                     },
                     scales: {
                         y: { 
                             beginAtZero: true,
                             grid: { color: '#f1f5f9' },
-                            ticks: { font: { size: 10 } }
+                            ticks: { font: { size: 10, weight: 'bold' } }
                         },
                         x: { 
                             grid: { display: false },
@@ -389,6 +404,15 @@
                     }
                 }
             });
+        }
+
+        function resetUI() {
+            document.getElementById('input-step').classList.remove('hidden');
+            document.getElementById('result-step').classList.add('hidden');
+            document.getElementById('upload-placeholder').classList.remove('hidden');
+            document.getElementById('file-preview').classList.add('hidden');
+            document.getElementById('btn-process').classList.add('hidden');
+            fileInput.value = '';
         }
 
         window.onload = () => {
